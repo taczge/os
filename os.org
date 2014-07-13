@@ -1,0 +1,10 @@
+* DAY 1
+** バイナリエディタ
+   - $ sudo apt-get install beav
+** helloos.img
+   - head.bin は手打ち
+   - $ head -c 1474416 /dev/zero > empty.bin
+   - $ cat head.img empty.bin > helloos.img
+** エミュレータ
+   - $ sudo apt-get install qmenu
+   - $ qemu -fda helloos.img
