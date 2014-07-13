@@ -9,3 +9,10 @@
 ** エミュレータ
    - $ sudo apt-get install qmenu
    - $ qemu -fda helloos.img
+** NASM
+*** 0埋め
+    - NASK :: RESB 10
+    - NASM :: TIMES 10 DB 0x00
+*** 現在位置($)の使い方
+    - NASK :: RESB 0x1fe-$
+    - NASM :: TIMES 0x1fe - ($ -$$) DB 0x00
