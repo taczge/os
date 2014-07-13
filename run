@@ -1,0 +1,5 @@
+#!/bin/sh
+
+readonly IMG_FILE="helloos.img"
+
+qemu -m 32 -localtime -fda $IMG_FILE
