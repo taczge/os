@@ -1,6 +1,7 @@
 * DAY 1
-** バイナリエディタ
+** バイナリまわり
    - $ sudo apt-get install beav
+   - $ sudo apt-get install bsdiff
 ** helloos.img
    - head.bin は手打ち
    - $ head -c 1474416 /dev/zero > empty.bin
