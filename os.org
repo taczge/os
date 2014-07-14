@@ -10,6 +10,8 @@
    - $ sudo apt-get install qmenu
    - $ qemu -fda helloos.img
 ** NASM
+*** compiler
+    $ sudo apt-get install nasm
 *** 0埋め
     - NASK :: RESB 10
     - NASM :: TIMES 10 DB 0x00
