@@ -56,6 +56,21 @@ putloop:
         INT     0x10            ; call video BIOS
         JMP     putloop
 
+retry:
+	MOV		AH,0x02
+	MOV		AL,1
+	MOV		BX,0
+	MOV		DL,0x00
+	INT		0x13
+	JNC		fin
+	ADD		SI,1
+	CMP		SI,5
+	JAE		error
+	MOV		AH,0x00
+	MOV		DL,0x00
+	INT		0x13
+	JMP		retry
+
 fin:
         HLT
         JMP     fin
