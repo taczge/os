@@ -1,6 +1,8 @@
 ; nasm
 ; tab=4
 
+CYLS    EQU     10              ; どこまで読み込むか
+
         ORG     0x7c00
 
         JMP     entry
@@ -38,8 +40,6 @@ entry:
 	MOV	DH,0			; ヘッド0
 	MOV	CL,2			; セクタ2
 
-        MOV     SI,0
-
 readloop:
         MOV     SI,0
 
@@ -65,6 +65,14 @@ next:
         ADD     CL,1
         CMP     CL,18
         JBE     readloop
+        MOV     CL,1
+        ADD     DH,1
+        CMP     DH,2
+        JB      readloop
+        MOV     DH,0
+        ADD     CH,1
+        CMP     CH,CYLS
+        JB      readloop
 
 fin:
         HLT
