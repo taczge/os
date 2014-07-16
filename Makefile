@@ -5,7 +5,7 @@ helloos.img: helloos.asm Makefile
 	$(ASM2IMG) helloos.asm -o $@ -l $(basename $@).lst
 
 .PHONY: run
-run: helloos.img Makefile
+run: helloos.img
 	$(EMULATOR) helloos.img
 
 .PHONY: clean
