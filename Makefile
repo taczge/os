@@ -1,5 +1,5 @@
 ASM2IMG=nasm -f bin
-EMULATOR=qemu-system-i386 -m 32 -localtime -fda
+EMULATOR=qemu-system-i386
 
 helloos.img: helloos.asm Makefile
 	$(ASM2IMG) helloos.asm -o $@ -l $(basename $@).lst
