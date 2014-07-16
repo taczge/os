@@ -25,26 +25,26 @@
         TIMES   18      DB      0x00
 
 entry:
-        MOV		AX,0			; レジスタ初期化
-        MOV		SS,AX
-	MOV		SP,0x7c00
-	MOV		DS,AX
+        MOV	AX,0			; レジスタ初期化
+        MOV	SS,AX
+	MOV	SP,0x7c00
+	MOV	DS,AX
 
-	MOV		AX,0x0820
-	MOV		ES,AX
-	MOV		CH,0			; シリンダ0
-	MOV		DH,0			; ヘッド0
-	MOV		CL,2			; セクタ2
+	MOV	AX,0x0820
+	MOV	ES,AX
+	MOV	CH,0			; シリンダ0
+	MOV	DH,0			; ヘッド0
+	MOV	CL,2			; セクタ2
 
-	MOV		AH,0x02			; AH=0x02 : ディスク読み込み
-	MOV		AL,1			; 1セクタ
-	MOV		BX,0
-	MOV		DL,0x00			; Aドライブ
-	INT		0x13			; ディスクBIOS呼び出し
-	JC		error
+	MOV	AH,0x02			; AH=0x02 : ディスク読み込み
+	MOV	AL,1			; 1セクタ
+	MOV	BX,0
+	MOV	DL,0x00			; Aドライブ
+	INT	0x13			; ディスクBIOS呼び出し
+	JC	error
 
 error:
-	MOV		SI,msg
+	MOV	SI,msg
 
 putloop:
         MOV     AL,[SI]
@@ -57,19 +57,19 @@ putloop:
         JMP     putloop
 
 retry:
-	MOV		AH,0x02
-	MOV		AL,1
-	MOV		BX,0
-	MOV		DL,0x00
-	INT		0x13
-	JNC		fin
-	ADD		SI,1
-	CMP		SI,5
-	JAE		error
-	MOV		AH,0x00
-	MOV		DL,0x00
-	INT		0x13
-	JMP		retry
+	MOV	AH,0x02
+	MOV	AL,1
+	MOV	BX,0
+	MOV	DL,0x00
+	INT	0x13
+	JNC	fin
+	ADD	SI,1
+	CMP	SI,5
+	JAE	error
+	MOV	AH,0x00
+	MOV	DL,0x00
+	INT	0x13
+	JMP	retry
 
 fin:
         HLT
