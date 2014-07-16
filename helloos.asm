@@ -24,37 +24,24 @@
         DB      "FAT12   "
         TIMES   18      DB      0x00
 
+;;; program body
 entry:
         MOV	AX,0			; レジスタ初期化
         MOV	SS,AX
 	MOV	SP,0x7c00
 	MOV	DS,AX
 
+;;; read disk
 	MOV	AX,0x0820
 	MOV	ES,AX
 	MOV	CH,0			; シリンダ0
 	MOV	DH,0			; ヘッド0
 	MOV	CL,2			; セクタ2
 
-	MOV	AH,0x02			; AH=0x02 : ディスク読み込み
-	MOV	AL,1			; 1セクタ
-	MOV	BX,0
-	MOV	DL,0x00			; Aドライブ
-	INT	0x13			; ディスクBIOS呼び出し
-	JC	error
+        MOV     SI,0
 
-error:
-	MOV	SI,msg
-
-putloop:
-        MOV     AL,[SI]
-        ADD     SI,1
-        CMP     AL,0
-        JE      fin
-        MOV     AH,0x0e         ; function number
-        MOV     BX,14           ; color code
-        INT     0x10            ; call video BIOS
-        JMP     putloop
+readloop:
+        MOV     SI,0
 
 retry:
 	MOV	AH,0x02
@@ -71,19 +58,41 @@ retry:
 	INT	0x13
 	JMP	retry
 
+next:
+        MOV     AX,ES
+        ADD     AX,0x0020
+        MOV     ES,AX
+        ADD     CL,1
+        CMP     CL,18
+        JBE     readloop
+
 fin:
         HLT
         JMP     fin
+error:
+	MOV	SI,msg
+
+putloop:
+        MOV     AL,[SI]
+        ADD     SI,1
+        CMP     AL,0
+        JE      fin
+        MOV     AH,0x0e         ; function number
+        MOV     BX,15           ; color code
+        INT     0x10            ; call video BIOS
+        JMP     putloop
 
 msg:
         DB      0x0a, 0x0a      ; 改行x2
-        DB      "Hello, world!!"
+        DB      "load error"
         DB      0x0a            ; 改行
         DB      0
 
         TIMES   0x1fe - ($ - $$)        DB      0x00
+
 	DB	0x55, 0xaa
 
+;; after boot sector
         DB	0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
 	TIMES	4600    DB      0x00
 	DB	0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
